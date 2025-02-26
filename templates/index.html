@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://storage.googleapis.com/fau-convo-ai-files/templates/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Audio Recorder</title>
+</head>
+<body>
+
+    <table style="width:100%">
+        <tbody><tr>
+            <td style="width:50%">
+                <h2>Record and Upload Audio</h2>
+                <button id="record">Record</button>
+                <button id="stop">Stop</button>
+                <span id="timer">00:00</span>
+                <audio id="audio"></audio>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="audio_data" id="audioData">
+                </form>
+                <script src="/script.js"></script>
+                <hl></hl>
+                <h2>Recorded Files</h2>
+                <ul>
+                    {% for file in files %}
+                    <li> 
+                        <audio controls="">
+                            <source src="{{ url_for('uploaded_file', filename=file) }}">
+                            Your browser does not support the audio element.
+                        </audio><br>
+                        {{file}}
+                        <a href="{{ url_for('uploaded_file', filename=file + '.txt') }}">{{file}}.txt</a>
+                        <a href="{{ url_for('uploaded_file', filename=file + '.sentiment.txt') }}">Sentiment</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td style="width:50%">
+                <h2>Type in your text to generate audio</h2>
+
+                <form action="/upload_text" method="post">
+                  <textarea name="text" rows="10" cols="50"></textarea>
+                  <br>
+                  <input type="submit" value="Upload">
+                </form>
+
+                <!-- insert list of files here -->
+                <hr>
+                <h2>Speech Files</h2>
+                <ul>
+                    {% for file in speech_files %}
+                    <li>
+                        <audio controls>
+                            <source src="{{ url_for('tts_file', filename=file) }}">
+                            Your browser does not support the audio element.
+                        </audio><br>
+                        {{ file }}
+                        <a href="{{ url_for('tts_file', filename=file + '.txt') }}">{{ file }}.txt</a>
+                        <a href="{{ url_for('tts_file', filename=file + '.sentiment.txt') }}">Sentiment</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </tbody></table>
+
+
+</body></html>
