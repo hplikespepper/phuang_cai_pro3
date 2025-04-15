@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!-- saved from url=(0070)https://storage.googleapis.com/fau-convo-ai-files/templates/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    <title>Audio Recorder</title>
+    <title>Book Q&A</title>
 </head>
 <body>
 
     <table style="width:100%">
         <tbody><tr>
             <td style="width:50%">
-                <h2>Record and Upload Audio</h2>
+                <h2>Record and Upload Audio Question</h2>
                 <button id="record">Record</button>
                 <button id="stop">Stop</button>
                 <span id="timer">00:00</span>
@@ -18,34 +18,37 @@
                 </form>
                 <script src="/script.js"></script>
                 <hl></hl>
-                <h2>Recorded Files</h2>
+                <h2>Recorded Questions</h2>
                 <ul>
-                    {% for file in files %}
+                    {% for file in questions %}
                     <li> 
                         <audio controls="">
-                            <source src="{{ url_for('uploaded_file', filename=file) }}">
+                            <source src="{{ url_for('uploaded_audio', filename=file) }}">
                             Your browser does not support the audio element.
                         </audio><br>
                         {{file}}
-                        <a href="{{ url_for('uploaded_file', filename=file + '.txt') }}">{{file}}.txt</a>
                     </li>
                     {% endfor %}
                 </ul>
             </td>
-<!--            <td style="width:50%">
-                <h2>Type in your text to generate audio</h2>
+           <td style="width:50%">
+                <h2>Upload PDF Book</h2>
 
-                <form action="/upload_text" method="post">
-                  <textarea name="text" rows="10" cols="50"></textarea>
-                  <br>
-                  <input type="submit" value="Upload">
+                <!-- <form action="/upload_book" method="post" enctype="multipart/form-data">
+                  <input type="file" name="book_file" accept="application/pdf" required>
+                </form> -->
+                <!-- <form id="pdfForm" action="/upload_book" method="post" enctype="multipart/form-data">
+                    <input type="file" name="book_file" accept="application/pdf" required onchange="document.getElementById('pdfForm').submit()">
+                </form> -->
+                <form action="/upload_book" method="post" enctype="multipart/form-data">
+                    <input type="file" name="book_file" accept="application/pdf" required>
+                    <br>
+                    <input type="submit" value="Upload Book">
                 </form>
-
-
                 <hr>
-                <h2>Speech Files</h2>
+                <h2>Generated TTS Answers</h2>
                 <ul>
-                    {% for file in speech_files %}
+                    <!-- {% for file in speech_files %}
                     <li>
                         <audio controls>
                             <source src="{{ url_for('tts_file', filename=file) }}">
@@ -55,9 +58,20 @@
                         <a href="{{ url_for('tts_file', filename=file + '.txt') }}">{{ file }}.txt</a>
                         <a href="{{ url_for('tts_file', filename=file + '.sentiment.txt') }}">Sentiment</a>
                     </li>
+                    {% endfor %} -->
+                    {% for tts in tts_files %}
+                    <li>
+                        <audio controls>
+                            <source src="{{ url_for('tts_audio', filename=tts) }}">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <br>
+                        {{ tts }}
+                        <a href="{{ url_for('tts_audio', filename=tts + '.txt') }}">{{tts}}.txt</a>
+                    </li>
                     {% endfor %}
                 </ul>
-            </td> -->
+            </td>
         </tr>
     </tbody></table>
 
